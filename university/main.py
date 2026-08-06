@@ -8,6 +8,34 @@ def show_grades(grades):
         print("No grades available")
 
 
+def get_grades():
+    grades_from_input = []
+
+    while True:
+        grade = float(input("Enter grade (-1 to finish): "))
+
+        if grade < 0:
+            break
+
+        if grade > 20:
+            print("! Grade must be between 0 to 20.")
+            continue
+
+        grades_from_input.append(grade)
+
+
+        total += grade
+        count += 1
+
+        if highest_grade is None or grade > highest_grade:
+            highest_grade = grade
+
+        if lowest_grade is None or grade < lowest_grade:
+            lowest_grade = grade
+
+    return grades_from_input
+
+
 first_name = None
 last_name = None
 student_id = None
@@ -43,27 +71,7 @@ while True:
 
     # Insert grades
     elif choice == "2":
-        while True:
-            grade = float(input("Enter grade (-1 to finish): "))
-
-            if grade < 0:
-                break
-
-            if grade > 20:
-                print("! Grade must be between 0 to 20.")
-                continue
-            
-            grades.append(grade)
-
-
-            total += grade
-            count += 1
-
-            if highest_grade is None or grade > highest_grade:
-                highest_grade = grade
-
-            if lowest_grade is None or grade < lowest_grade:
-                lowest_grade = grade
+        grades = get_grades()
 
     # Show info
     elif choice == "3":
