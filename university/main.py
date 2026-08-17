@@ -1,40 +1,19 @@
-def show_grades(grades):
-    print("----- Grades -----")
+import os
+from functions import get_grades, show_grades, show_info, show_separator, is_login, clear_cmd
 
-    if len(grades) > 0:
-        for grade in grades:
-            print(grade)
-    else:
-        print("No grades available")
+### LOGIN
 
+show_separator("Login to my app")
+username = input("Username: ")
+password = input("Password: ")
 
-def get_grades():
-    grades_from_input = []
+if is_login(username, password) == False:
+    print("To chizi le migi nisti. You are a lier. Go and fix your life.")
+    quit()
 
-    while True:
-        grade = float(input("Enter grade (-1 to finish): "))
+clear_cmd()
 
-        if grade < 0:
-            break
-
-        if grade > 20:
-            print("! Grade must be between 0 to 20.")
-            continue
-
-        grades_from_input.append(grade)
-
-
-        total += grade
-        count += 1
-
-        if highest_grade is None or grade > highest_grade:
-            highest_grade = grade
-
-        if lowest_grade is None or grade < lowest_grade:
-            lowest_grade = grade
-
-    return grades_from_input
-
+###
 
 first_name = None
 last_name = None
@@ -49,7 +28,8 @@ lowest_grade = None
 grades = []
 
 while True:
-    print("\n------------ UN Managment ------------")
+    show_separator("UN Managment")
+
     print("1. Insert Student Info")
     print("2. Insert Grades")
     print("3. Show Student Report")
@@ -89,14 +69,16 @@ while True:
         else:
             status = "Failed"
 
-        # Print student report
-        print("\n----- Student Report -----")
-        print(f"Name: {first_name} {last_name}")
-        print(f"Student ID: {student_id}")
-        print(f"Average: {average:.2f}")
-        print(f"Status: {status}")
-        print(f"Highest Grade: {highest_grade}")
-        print(f"Lowest Grade: {lowest_grade}")
+        # show_info(first_name, last_name, student_id, average, status, highest_grade, lowest_grade)first_name, last_name, student_id, average, status, highest_grade, lowest_grade
+        show_info(
+            first_name=first_name,
+            last_name=last_name,
+            student_id=student_id,
+            average=average,
+            status=status,
+            highest_grade=highest_grade,
+            lowest_grade=lowest_grade
+        )
 
     # Show grades
     elif choice == "4":
@@ -107,12 +89,12 @@ while True:
 
         show_grades(grades)
 
-        print("------------------")
+        show_separator()
 
         grade = int( input("Enter your grade for remove: ") )
         grades.remove(grade)
 
-        print("------------------")
+        show_separator()
 
         show_grades(grades)
 
