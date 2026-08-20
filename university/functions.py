@@ -64,7 +64,16 @@ def show_separator(title=""):
     print(f"\n-----------{title}-----------\n")
 
 def is_login(username, password):
-    if username == "admin" and password == "1234":
+    username_org = None
+    password_org = None
+    
+    with open("data/user_login.txt") as file:
+        username_org = file.readline().replace("\n", "")
+        password_org = file.readline().replace("\n", "")
+
+    print("LOG", username_org, password_org)
+
+    if username == username_org and password == password_org:
         return True
     else:
         return False

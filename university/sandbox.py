@@ -1,6 +1,13 @@
-from functions import show_info
+"""
+myfile = open("./myfile.txt") 
 
-show_info(first_name="Roya", last_name="Mahmoodi", lowest_grade=5)
+print( myfile.read() )
 
+myfile.close()
+"""
 
+mystring = r"admin\n"
 
+mystring = mystring.replace(r"\n", "")
+
+print(mystring)
