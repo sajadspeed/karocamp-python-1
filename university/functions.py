@@ -1,4 +1,5 @@
 import os
+from settings import user_login_path
 
 
 def show_grades(grades):
@@ -67,9 +68,9 @@ def is_login(username, password):
     username_org = None
     password_org = None
     
-    with open("data/user_login.txt") as file:
-        username_org = file.readline().replace("\n", "")
-        password_org = file.readline().replace("\n", "")
+    with open(user_login_path) as file:
+        username_org = clear_string(file.readline())
+        password_org = clear_string(file.readline())
 
     print("LOG", username_org, password_org)
 
@@ -80,3 +81,9 @@ def is_login(username, password):
 
 def clear_cmd():
     os.system("cls")
+
+def clear_string(string: str) -> str:
+    """
+    Clear \\n and witespace from string and return cleared string.
+    """
+    return string.replace("\n", "")

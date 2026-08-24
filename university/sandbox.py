@@ -1,13 +1,17 @@
-"""
-myfile = open("./myfile.txt") 
+name = "Roya"
 
-print( myfile.read() )
+student = {
+    "name": name,
+    "std_id": 236541213,
+    "is_a_good_person": True,
+    "friends": [ 
+        {
+            "name": "Ziba",
+        }
+     ]
+}
 
-myfile.close()
-"""
+print( student["friends"][0] )
 
-mystring = r"admin\n"
-
-mystring = mystring.replace(r"\n", "")
-
-print(mystring)
+for friend in student["friends"]:
+    print(friend)
