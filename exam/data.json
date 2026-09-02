@@ -1,0 +1,14 @@
+{
+    "questions": [
+        {
+            "question": "Which keyword is used to define a function?",
+            "options": ["func", "def", "function", "define"],
+            "answer": "B"
+        },
+        {
+            "question": "How much you like me?",
+            "options": ["Ye doone", "Zaban ghaser ast", "Bro Gomsho", "Binahayat"],
+            "answer": "C"
+        }
+    ]
+}
