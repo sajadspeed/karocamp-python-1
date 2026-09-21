@@ -1,0 +1,16 @@
+<table border="1" width="500" style="text-align: center;">
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Weight</th>
+        <th>Phone</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user["name"] }}</td>
+        <td>{{ user["age"] }}</td>
+        <td>{{ user["weight"] }}</td>
+        <td>{{ user["phone"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
