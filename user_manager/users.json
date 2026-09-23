@@ -1,0 +1,43 @@
+[
+    {
+        "username": "roya",
+        "password": "1234",
+        "is_verified": true,
+        "skills": [
+            "python",
+            "dance"
+        ],
+        "profile": {
+            "name": "Roya Joon",
+            "age": 26,
+            "city": "ESF"
+        }
+    },
+    {
+        "username": "danial",
+        "password": "1234",
+        "is_verified": false,
+        "skills": [
+            "nothing"
+        ],
+        "profile": {
+            "name": "Danial Joooooon",
+            "age": 24,
+            "city": "Fooladshahr"
+        }
+    },
+    {
+        "username": "nastaran",
+        "password": "1234",
+        "is_verified": true,
+        "skills": [
+            "paiting",
+            "fitness"
+        ],
+        "profile": {
+            "name": "Nastaran Khanoom",
+            "age": 24,
+            "city": "Tehran"
+        }
+    }
+]

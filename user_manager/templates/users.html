@@ -1,0 +1,20 @@
+<table border="1" width="500" style="text-align: center;">
+    <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Is Verified</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user["username"] }}</td>
+        <td>{{ user["profile"]["name"] }}</td>
+        <td>{{ user["profile"]["age"] }}</td>
+        {% if user["is_verified"] %}
+            <td>🍓</td>
+        {% else %}
+            <td>🎃</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
