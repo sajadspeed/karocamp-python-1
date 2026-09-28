@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import user_manager
 
 app = Flask(__name__)
@@ -15,9 +15,20 @@ def home_page():
     return render_template("home.html", title=title)
 
 
-@app.route("/users")
+@app.route("/users", methods=["POST", "GET"])
 def users_page():
-    users = user_manager.get_users()
+    users = []
+    username_for_search = request.form.get("username")
+
+    print(username_for_search)
+
+    if username_for_search is None:
+        users = user_manager.get_users()
+    else:
+        user = user_manager.find_user(username_for_search)
+        if user is not None:
+            users.append(user)
+
     return render_template("users.html", users=users)
 
 

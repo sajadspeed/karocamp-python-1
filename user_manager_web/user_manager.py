@@ -16,7 +16,15 @@ def find_user(username):
     return None
 
 
-def register_user(username, password, name, age, city, skills, is_verified):
+def register_user(
+    username: str,
+    password: str,
+    name: str,
+    age: int,
+    city: str,
+    skills: list[str],
+    is_verified: bool,
+):
     if find_user(username) is not None:
         return False
 
@@ -25,11 +33,7 @@ def register_user(username, password, name, age, city, skills, is_verified):
         "password": password,
         "is_verified": is_verified,
         "skills": skills,
-        "profile": {
-            "name": name,
-            "age": age,
-            "city": city
-        }
+        "profile": {"name": name, "age": age, "city": city},
     }
 
     users.append(user)

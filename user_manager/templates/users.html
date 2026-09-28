@@ -1,3 +1,10 @@
+<form method="post">
+    <input type="search" name="username" placeholder="Search for username">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
 <table border="1" width="500" style="text-align: center;">
     <tr>
         <th>Username</th>
@@ -5,6 +12,7 @@
         <th>Age</th>
         <th>Is Verified</th>
     </tr>
+    {% if users %}
     {% for user in users %}
     <tr>
         <td>{{ user["username"] }}</td>
@@ -17,4 +25,9 @@
         {% endif %}
     </tr>
     {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="4">Nothing here.</td>
+    </tr>
+    {% endif %}
 </table>
