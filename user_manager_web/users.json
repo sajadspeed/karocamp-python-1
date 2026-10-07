@@ -1,0 +1,28 @@
+[
+    {
+        "username": "roya",
+        "password": "lsjfd",
+        "is_verified": true,
+        "skills": [
+            "dance"
+        ],
+        "profile": {
+            "name": "Roya",
+            "age": 25,
+            "city": "esf"
+        }
+    },
+    {
+        "username": "mehdi",
+        "password": "lskjdf",
+        "is_verified": true,
+        "skills": [
+            "dance"
+        ],
+        "profile": {
+            "name": "Mehdi Khar",
+            "age": 26,
+            "city": "yazd"
+        }
+    }
+]

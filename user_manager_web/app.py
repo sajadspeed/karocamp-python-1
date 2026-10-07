@@ -5,6 +5,8 @@ import user_manager
 
 app = Flask(__name__)
 
+app.secret_key = "lksjdflksjdflksdufiwef"
+
 
 @app.route("/")
 def index():
@@ -40,13 +42,7 @@ def register():
         is_verified = "is_verified" in request.form
 
         result = user_manager.register_user(
-            username,
-            password,
-            name,
-            age,
-            city,
-            skills,
-            is_verified
+            username, password, name, age, city, skills, is_verified
         )
 
         if result:
@@ -67,6 +63,11 @@ def user_detail(username):
         return redirect(url_for("index"))
 
     return render_template("user_detail.html", user=user)
+
+
+@app.route("/users/<username>/posts")
+def user_posts(username):
+    pass
 
 
 @app.route("/users/<username>/update", methods=["GET", "POST"])
