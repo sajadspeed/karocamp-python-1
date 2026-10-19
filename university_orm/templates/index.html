@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold">Academic Management System</h1>
+        <p class="col-md-8 fs-4 text-muted">A Flask app showcasing Django-style Field Declarations and Validation in Custom OOP ORM.</p>
+        <hr class="my-4">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h3>{{ student_count }}</h3>
+                <p class="text-muted">Registered Students</p>
+            </div>
+            <div class="col-md-4">
+                <h3>{{ course_count }}</h3>
+                <p class="text-muted">Active Courses</p>
+            </div>
+            <div class="col-md-4">
+                <h3>{{ teacher_count }}</h3>
+                <p class="text-muted">Faculty Members</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

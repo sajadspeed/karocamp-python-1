@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h4>Add New Student</h4>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="name" class="form-control {% if errors.name %}is-invalid{% endif %}" value="{{ form.name or '' }}">
+                    {% if errors.name %}<div class="invalid-feedback">{{ errors.name }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Student Number</label>
+                    <input type="text" name="student_number" class="form-control {% if errors.student_number %}is-invalid{% endif %}" value="{{ form.student_number or '' }}">
+                    {% if errors.student_number %}<div class="invalid-feedback">{{ errors.student_number }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control {% if errors.email %}is-invalid{% endif %}" value="{{ form.email or '' }}">
+                    {% if errors.email %}<div class="invalid-feedback">{{ errors.email }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Enrollment Year</label>
+                    <input type="number" name="enrollment_year" class="form-control {% if errors.enrollment_year %}is-invalid{% endif %}" value="{{ form.enrollment_year or '2026' }}">
+                    {% if errors.enrollment_year %}<div class="invalid-feedback">{{ errors.enrollment_year }}</div>{% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Student</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow-sm p-3">
+            <h4>Student Directory</h4>
+            <table class="table table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Student No</th>
+                        <th>Email</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.student_number }}</td>
+                        <td>{{ student.email or '-' }}</td>
+                        <td>{{ student.enrollment_year }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

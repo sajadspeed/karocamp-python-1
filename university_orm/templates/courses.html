@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h4>Add New Course</h4>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Course Name</label>
+                    <input type="text" name="name" class="form-control {% if errors.name %}is-invalid{% endif %}" value="{{ form.name or '' }}">
+                    {% if errors.name %}<div class="invalid-feedback">{{ errors.name }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Course Code</label>
+                    <input type="text" name="code" class="form-control {% if errors.code %}is-invalid{% endif %}" value="{{ form.code or '' }}">
+                    {% if errors.code %}<div class="invalid-feedback">{{ errors.code }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Units</label>
+                    <input type="number" name="unit" class="form-control {% if errors.unit %}is-invalid{% endif %}" value="{{ form.unit or '3' }}">
+                    {% if errors.unit %}<div class="invalid-feedback">{{ errors.unit }}</div>{% endif %}
+                </div>
+                <button type="submit" class="btn btn-success w-100">Save Course</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow-sm p-3">
+            <h4>Course List</h4>
+            <table class="table table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Course Name</th>
+                        <th>Code</th>
+                        <th>Units</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.id }}</td>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.code }}</td>
+                        <td>{{ course.unit }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
