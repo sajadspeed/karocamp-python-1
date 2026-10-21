@@ -11,6 +11,10 @@ paria_account = TegaratBank(
     "Paria", 100, reporters=[report_print, report_sms, reporter_file]
 )
 
+print(danial_account + sajad_account)
+
+quit()
+
 danial_account.kart_be_kart(sajad_account, 18)
 
 paria_account.kart_be_kart(sajad_account, 50)
