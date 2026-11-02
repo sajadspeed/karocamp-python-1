@@ -1,3 +1,13 @@
 from django.db import models
 
-# Create your models here.
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField()
+    is_gooni_base = models.BooleanField(default=True)
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
