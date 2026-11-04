@@ -23,4 +23,5 @@ from polls.views import index, test_page
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("polls/", include("polls.urls")),
+    path("students/", include("students.urls")),
 ]

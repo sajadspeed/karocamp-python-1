@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Student</title>
+</head>
+<body>
+
+    <h1>Search Student</h1>
+
+    <form method="GET" action="{% url 'students:get' %}">
+        <input type="text" name="std_number" placeholder="Student Number: ">
+        <button type="submit">Search</button>
+    </form>
+
+</body>
+</html>
