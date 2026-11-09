@@ -8,3 +8,6 @@ class Student(models.Model):
     bio = models.TextField(null=True, blank=True)
     age = models.SmallIntegerField(default=18)
     is_married = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

@@ -1,0 +1,24 @@
+
+<table border="1">
+    <tr>
+        <th>Student Number</th>
+        <th>Name</th>
+        <th>Phone</th>
+    </tr>
+    {% if students %}
+    {% for student in students %}
+    <tr>
+        <td>{{student.std_number}}</td>
+        <td>{{student.name}}</td>
+        <td>{{student.phone}}</td>
+    </tr>
+    {% endfor %}
+    
+    {% else %}
+    <tr>
+        <td colspan="3">No one is here. 🍓</td>
+    </tr>
+
+    {% endif %}
+
+</table>

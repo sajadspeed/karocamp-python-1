@@ -24,12 +24,26 @@ def create(request):
 def get_all(request):
     students = Student.objects.all()
 
-    result = "<ul>"
+    context = {"students": students}
+
+    return render(request, "students.html", context)
+
+
+def test(request):
+    print("Start")
+    students = Student.objects.all()
+    print("After all()")
+    students = students.filter(age__gte=18)
+    print("After filter()")
+    students = students[0:3]
+    print("After [0:3]")
+
+    result = ""
 
     for student in students:
-        result += f"<li>{student.std_number} -> {student.name}</li>"
+        result += student.name + ", "
 
-    result += "</ul>"
+    print("After for")
 
     return HttpResponse(result)
 
@@ -43,7 +57,7 @@ def get(request):
         std_number_for_search = request.GET.get("std_number")
 
         student = Student.objects.get(std_number=std_number_for_search)
-        
+
         result = "<ul>"
 
         result += f"<li>{student.std_number} -> {student.name}</li>"
