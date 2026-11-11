@@ -1,24 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from .models import Student
 
 
+from .forms import StudentForm
+
+
 def create(request):
-    try:
-        student = Student(name="Ali")
-        student.phone = "0913000212"
-        student.std_number = "1234567"
+    if request.method == "POST":
+        form = StudentForm(request.POST)
 
-        student.full_clean()
-        student.save()
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect("students:create")
 
-        return HttpResponse("One student add to DB.")
-    except IntegrityError as e:
-        return HttpResponse(e)
-    except ValidationError as e:
-        return HttpResponse(e)
+            except IntegrityError:
+                form.add_error("std_number", "This student number already exists.")
+    else:
+        form = StudentForm()
+
+    return render(request, "create.html", {"form": form})
 
 
 def get_all(request):

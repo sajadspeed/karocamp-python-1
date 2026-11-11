@@ -1,0 +1,33 @@
+{% extends 'social/base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card mt-3 shadow-lg border-0 rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="post-avatar me-3 shadow-sm" style="width: 50px; height: 50px;">
+                        {{ user.username|make_list|first|upper }}
+                    </div>
+                    <h4 class="fw-bold m-0 text-dark">ایجاد پست جدید</h4>
+                </div>
+                <hr class="mb-4 opacity-25">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-4">
+                            <label class="form-label text-secondary fw-bold">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}<div class="form-text small mt-2">{{ field.help_text }}</div>{% endif %}
+                            {% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                        </div>
+                    {% endfor %}
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{% url 'social:post_list' %}" class="btn btn-light rounded-pill px-4 fw-bold me-2 border">انصراف</a>
+                        <button type="submit" class="btn btn-primary px-5 rounded-pill fw-bold shadow-sm">انتشار پست</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

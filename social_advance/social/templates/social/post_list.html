@@ -1,0 +1,117 @@
+{% extends 'social/base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 px-2 gap-3">
+            <div class="d-flex align-items-center">
+                <h4 class="fw-bold text-dark m-0">{{ page_title }}</h4>
+                {% if request.resolver_match.url_name != 'post_list' %}
+                    <a href="{% url 'social:post_list' %}" class="btn btn-sm btn-light border rounded-pill px-3 ms-3">نمایش همه پست‌ها</a>
+                {% endif %}
+            </div>
+            
+            <!-- Sorting Buttons -->
+            <div class="d-flex align-items-center bg-white p-1 rounded-pill shadow-sm border">
+                <a href="?sort=desc{% if page_obj.number %}&page={{ page_obj.number }}{% endif %}" 
+                   class="btn btn-sm rounded-pill px-3 fw-bold {% if current_sort != 'asc' %}btn-primary{% else %}btn-light text-muted{% endif %}">
+                   جدیدترین
+                </a>
+                <a href="?sort=asc{% if page_obj.number %}&page={{ page_obj.number }}{% endif %}" 
+                   class="btn btn-sm rounded-pill px-3 fw-bold ms-1 {% if current_sort == 'asc' %}btn-primary{% else %}btn-light text-muted{% endif %}">
+                   قدیمی‌ترین
+                </a>
+            </div>
+        </div>
+        
+        {% for post in posts %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body p-4">
+                <!-- Header -->
+                <div class="d-flex align-items-center mb-3">
+                    <div class="post-avatar me-3 shadow-sm">
+                        {{ post.author.username|make_list|first|upper }}
+                    </div>
+                    <div>
+                        <a href="{% url 'social:post_by_author' post.author.username %}" class="text-decoration-none fw-bold text-dark fs-6 d-block hover-primary">
+                            {{ post.author.username }}
+                        </a>
+                        <small class="text-muted">{{ post.created_at|date:"Y/m/d - H:i" }}</small>
+                    </div>
+                </div>
+                
+                <!-- Content Truncated -->
+                <p class="card-text fs-5 text-dark mb-3" style="line-height: 1.8;">
+                    {{ post.content|truncatewords:20 }}
+                </p>
+                
+                <!-- Tags -->
+                {% if post.tags.all %}
+                <div class="mb-3">
+                    {% for tag in post.tags.all %}
+                        <a href="{% url 'social:post_by_tag' tag.name %}" class="tag-badge me-1 d-inline-block mb-1">
+                            #{{ tag.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <hr class="text-muted opacity-25">
+                
+                <!-- Actions -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-danger fw-bold me-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart-fill me-1" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
+                            {{ post.like_count }}
+                        </span>
+                        <span class="text-muted fw-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chat-fill me-1" viewBox="0 0 16 16"><path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/></svg>
+                            {{ post.comments.count }}
+                        </span>
+                    </div>
+                    <a href="{% url 'social:post_detail' post.pk %}" class="btn btn-light border fw-bold rounded-pill px-4 text-primary-custom">
+                        ادامه مطلب
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body text-center p-5">
+                <h5 class="text-muted mb-0">موردی برای نمایش یافت نشد.</h5>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-5">
+          <ul class="pagination justify-content-center">
+            
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link shadow-sm rounded-start-pill px-3" href="?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}">قبلی</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link rounded-start-pill px-3">قبلی</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link shadow-sm">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link shadow-sm text-dark" href="?page={{ num }}&sort={{ current_sort }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link shadow-sm rounded-end-pill px-3" href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}">بعدی</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link rounded-end-pill px-3">بعدی</span></li>
+            {% endif %}
+            
+          </ul>
+        </nav>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
