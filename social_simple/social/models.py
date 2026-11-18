@@ -19,7 +19,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="نویسنده")
-    content = models.TextField(verbose_name="متن کامنت")
+    content = models.TextField(verbose_name="متن کامنت", max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self): return f"کامنت {self.author.username}"
 

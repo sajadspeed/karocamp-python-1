@@ -18,10 +18,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from polls.views import index, test_page
+from students.api_views import students, get_tmplate
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("polls/", include("polls.urls")),
     path("students/", include("students.urls")),
+    path("api/students/", students),
+
+
+
+
+    path("api/students/get_tmplate/", get_tmplate),
 ]

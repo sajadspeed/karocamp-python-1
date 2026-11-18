@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست دانشجویان</title>
+
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .student {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .student p {
+            margin: 7px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>لیست دانشجویان</h2>
+
+    <div id="students">
+        در حال دریافت اطلاعات...
+    </div>
+
+    <script>
+        fetch("http://127.0.0.1:8000/api/students/get/")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("خطا در دریافت اطلاعات");
+                }
+                return response.json();
+            })
+            .then(data => {
+                const container = document.getElementById("students");
+
+                container.innerHTML = "";
+
+                data.students.forEach(student => {
+                    const div = document.createElement("div");
+                    div.className = "student";
+
+                    const name = document.createElement("p");
+                    name.textContent = "نام: " + student.name;
+
+                    const age = document.createElement("p");
+                    age.textContent = "سن: " + student.age;
+
+                    const phone = document.createElement("p");
+                    phone.textContent = "تلفن: " + (student.phone || "ثبت نشده");
+
+                    div.appendChild(name);
+                    div.appendChild(age);
+                    div.appendChild(phone);
+
+                    container.appendChild(div);
+                });
+            })
+            .catch(error => {
+                document.getElementById("students").textContent =
+                    "خطا در دریافت اطلاعات: " + error.message;
+                console.error(error);
+            });
+    </script>
+
+</body>
+</html>
