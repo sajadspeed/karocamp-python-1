@@ -1,0 +1,441 @@
+{
+  "info": {
+    "name": "Django Simple Social - DRF & JWT API",
+    "description": "Postman collection for the Django REST Framework version of the Simple Social project with JWT authentication.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "post_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "tag_name",
+      "value": "جنگو",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "ali",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Users (Auth & JWT)",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const data = pm.response.json();",
+                  "    if (data.access) pm.collectionVariables.set('access_token', data.access);",
+                  "    if (data.refresh) pm.collectionVariables.set('refresh_token', data.refresh);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new_student\",\n  \"password\": \"password123\",\n  \"password2\": \"password123\",\n  \"first_name\": \"سارا\",\n  \"last_name\": \"احمدی\",\n  \"phone_number\": \"09121234567\",\n  \"bio\": \"دانشجوی دوره جنگو\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/register/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "register",
+                ""
+              ]
+            },
+            "description": "Register a new user and automatically store access & refresh JWT tokens in collection variables."
+          }
+        },
+        {
+          "name": "Login (Obtain JWT Pair)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const data = pm.response.json();",
+                  "    if (data.access) pm.collectionVariables.set('access_token', data.access);",
+                  "    if (data.refresh) pm.collectionVariables.set('refresh_token', data.refresh);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new_student\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "login",
+                ""
+              ]
+            },
+            "description": "Authenticate with username and password to receive JWT access and refresh tokens."
+          }
+        },
+        {
+          "name": "Refresh Access Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const data = pm.response.json();",
+                  "    if (data.access) pm.collectionVariables.set('access_token', data.access);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/token/refresh/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "token",
+                "refresh",
+                ""
+              ]
+            },
+            "description": "Obtain a new access token using the stored refresh token."
+          }
+        },
+        {
+          "name": "Logout (Blacklist Refresh Token)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/logout/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "logout",
+                ""
+              ]
+            },
+            "description": "Blacklist the refresh token to log the user out."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Social (Posts, Comments, Likes, Tags)",
+      "item": [
+        {
+          "name": "List Posts (Paginated & Sorted)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/?sort=desc&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "desc",
+                  "description": "Use 'desc' for newest first or 'asc' for oldest first"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (5 posts per page)"
+                }
+              ]
+            },
+            "description": "Public endpoint. Returns paginated list of posts with truncated content preview."
+          }
+        },
+        {
+          "name": "Posts by Tag",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tag/{{tag_name}}/?sort=desc&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tag",
+                "{{tag_name}}",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Public endpoint. Returns paginated posts filtered by tag name."
+          }
+        },
+        {
+          "name": "Posts by Author",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/author/{{username}}/?sort=desc&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "author",
+                "{{username}}",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Public endpoint. Returns paginated posts created by a specific author."
+          }
+        },
+        {
+          "name": "Post Detail",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/post/{{post_id}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "post",
+                "{{post_id}}",
+                ""
+              ]
+            },
+            "description": "Public endpoint (auth optional for user_has_liked). Returns full post content, tags, liked_by usernames, and comments."
+          }
+        },
+        {
+          "name": "Create Post (Auth Required)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"این اولین پست من از طریق Django REST Framework و احراز هویت JWT است!\",\n  \"tags\": [\n    \"جنگو\",\n    \"پایتون\",\n    \"DRF\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/post/create/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "post",
+                "create",
+                ""
+              ]
+            },
+            "description": "Requires JWT Bearer token. Creates a new post with optional tags list."
+          }
+        },
+        {
+          "name": "Toggle Like on Post (Auth Required)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/post/{{post_id}}/like/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "post",
+                "{{post_id}}",
+                "like",
+                ""
+              ]
+            },
+            "description": "Requires JWT Bearer token. Likes the post if not liked yet, or removes the like if already liked."
+          }
+        },
+        {
+          "name": "Add Comment to Post (Auth Required)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"مطلب بسیار عالی و کاربردی بود، ممنون!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/post/{{post_id}}/comment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "post",
+                "{{post_id}}",
+                "comment",
+                ""
+              ]
+            },
+            "description": "Requires JWT Bearer token. Adds a new comment to the specified post."
+          }
+        }
+      ]
+    }
+  ]
+}
